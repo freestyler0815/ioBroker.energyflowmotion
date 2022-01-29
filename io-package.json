@@ -1,0 +1,123 @@
+{
+    "common": {
+        "name": "energyflowmotion",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "Energy Flow Motion",
+        "titleLang": {
+            "en": "Energy Flow Motion",
+            "de": "Energiefluss-Bewegung",
+            "ru": "Движение потока энергии",
+            "pt": "Movimento de fluxo de energia",
+            "nl": "Energiestroom Beweging",
+            "fr": "Mouvement de flux d'énergie",
+            "it": "Movimento del flusso di energia",
+            "es": "Movimiento de flujo de energía",
+            "pl": "Ruch przepływu energii",
+            "zh-cn": "能量流动运动"
+        },
+        "desc": {
+            "en": "Preparing and Visualizing Energy Data and Flow",
+            "de": "Energiedaten und -fluss aufbereiten und visualisieren",
+            "ru": "Подготовка и визуализация энергетических данных и потоков",
+            "pt": "Preparando e Visualizando Dados e Fluxo de Energia",
+            "nl": "Energiegegevens en -stroom voorbereiden en visualiseren",
+            "fr": "Préparation et visualisation des données et flux énergétiques",
+            "it": "Preparazione e visualizzazione di dati e flussi energetici",
+            "es": "Preparación y visualización de datos y flujo de energía",
+            "pl": "Przygotowanie i wizualizacja danych i przepływu energii",
+            "zh-cn": "准备和可视化能源数据和流动"
+        },
+        "authors": [
+            "Andre Silz <andre.silz@netboxmail.de>"
+        ],
+        "keywords": [
+            "Energymeter",
+            "Photovoltaics",
+            "Solar",
+            "Battery"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "energyflowmotion.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/freestyler0815/ioBroker.energyflowmotion/master/admin/energyflowmotion.png",
+        "readme": "https://github.com/freestyler0815/ioBroker.energyflowmotion/blob/master/README.md",
+        "loglevel": "info",
+        "restartAdapters": [
+            "vis"
+        ],
+        "localLink": "%web_protocol%://%ip%:%web_port%/vis/edit.html",
+        "mode": "daemon",
+        "type": "energy",
+        "compact": true,
+        "materialize": true,
+        "materializeTab": true,
+        "adminTab": {
+            "singleton": true,
+            "name": {
+                "en": "Energy Flow Motion",
+                "de": "Energiefluss-Bewegung",
+                "ru": "Движение потока энергии",
+                "pt": "Movimento de fluxo de energia",
+                "nl": "Energiestroom Beweging",
+                "fr": "Mouvement de flux d'énergie",
+                "it": "Movimento del flusso di energia",
+                "es": "Movimiento de flujo de energía",
+                "pl": "Ruch przepływu energii",
+                "zh-cn": "能量流动运动"
+            },
+            "link": "",
+            "fa-icon": "info"
+        },
+        "supportCustoms": true,
+        "dependencies": [
+            {
+                "js-controller": ">=1.4.2"
+            },
+            "vis"
+        ]
+    },
+    "native": {
+        "option1": true,
+        "option2": "42"
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
+}
