@@ -109,5 +109,17 @@ systemDictionary = {
         'es': 'Instancia',
         'pl': 'Instancja',
         'zh-cn': '例'
+    },
+    'importThreshholdVis': {
+        'en': 'Import Threshhold Vis in kW',
+        'de': 'Bezug Schwellwert Vis in kW'
+    },
+    'exportThreshholdVis': {
+        'en': 'Export Threshhold Vis in kW',
+        'de': 'Einspeisung Schwellwert Vis in kW'
+    },
+    'refreshIntervall': {
+        'en': 'Refresh Intervall in Seconds',
+        'de': 'Aktualisierungsintervall'
     }
 };
