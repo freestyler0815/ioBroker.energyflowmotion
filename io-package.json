@@ -93,8 +93,9 @@
         ]
     },
     "native": {
-        "option1": true,
-        "option2": "42"
+        "importThreshholdVis": "0.05",
+        "exportThreshholdVis": "0.05",
+        "refreshIntervall": "2"
     },
     "objects": [],
     "instanceObjects": [

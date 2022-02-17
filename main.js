@@ -39,28 +39,122 @@ class Energyflowmotion extends utils.Adapter {
 
         // The adapters config (in the instance object everything under the attribute "native") is accessible via
         // this.config:
-        this.log.info('config option1: ' + this.config.option1);
-        this.log.info('config option2: ' + this.config.option2);
+        //this.log.info('config option1: ' + this.config.option1);
+        //this.log.info('config option2: ' + this.config.option2);
 
         /*
         For every state in the system there has to be also an object of type state
         Here a simple template for a boolean variable named "testVariable"
         Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
         */
-        await this.setObjectNotExistsAsync('testVariable', {
-            type: 'state',
-            common: {
-                name: 'testVariable',
-                type: 'boolean',
-                role: 'indicator',
-                read: true,
-                write: true,
-            },
-            native: {},
-        });
+
+        // Current Powerstates
+        // Channel
+        await this.setObjectNotExistsAsync('CurrentPower', {type: 'channel', common: { name: 'CurrentPower'}, native: {},});
+        // States        
+        await this.setObjectNotExistsAsync('CurrentPower.PvPower', {type: 'state', common: {type: 'number', name: 'PvErzeugung', unit: 'KW' , role: 'value.power', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('CurrentPower.Load', {type: 'state', common: {type: 'number', name: 'Verbrauch', unit: 'KW' , role: 'value.power', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('CurrentPower.Export', {type: 'state', common: {type: 'number', name: 'Einspeisung', unit: 'KW' , role: 'value.power', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('CurrentPower.Import', {type: 'state', common: {type: 'number', name: 'Bezug', unit: 'KW' , role: 'value.power', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('CurrentPower.BatDischarge', {type: 'state', common: {type: 'number', name: 'BatterieEntladung', unit: 'KW' , role: 'value.power', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('CurrentPower.BatCharge', {type: 'state', common: {type: 'number', name: 'BatterieLadung', unit: 'KW' , role: 'value.power', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('CurrentPower.GlobalBatState', {type: 'state', common: {type: 'number', name: 'GlobalerBatteriestatus', role: 'value', read: true,  write: true,}, native: {},});                
+
+        // Historical Powerstates
+        // Day
+        // Channel
+        await this.setObjectNotExistsAsync('TodayPower', {type: 'channel', common: { name: 'TodayPower'}, native: {},});
+        // States
+        await this.setObjectNotExistsAsync('TodayPower.PvPower', {type: 'state', common: {type: 'number', name: 'PvErzeugung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('TodayPower.Load', {type: 'state', common: {type: 'number', name: 'Verbrauch', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('TodayPower.Export', {type: 'state', common: {type: 'number', name: 'Einspeisung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('TodayPower.Import', {type: 'state', common: {type: 'number', name: 'Bezug', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('TodayPower.BatDischarge', {type: 'state', common: {type: 'number', name: 'BatterieEntladung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('TodayPower.BatCharge', {type: 'state', common: {type: 'number', name: 'BatterieLadung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('TodayPower.SelfConsumption', {type: 'state', common: {type: 'number', name: 'Eigenverbrauch kWh', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('TodayPower.SelfConsumptionQuota', {type: 'state', common: {type: 'number', name: 'Eigenverbrauch Anteil', unit: '%' , role: 'value', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('TodayPower.AutarchyQuota', {type: 'state', common: {type: 'number', name: 'Autarkie', unit: '%' , role: 'value', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('TodayPower.Date', {type: 'state', common: {type: 'number', name: 'Datum', role: 'value.time', read: true,  write: true,}, native: {},});        
+
+        // LastDay
+        // Channel
+        await this.setObjectNotExistsAsync('LastdayPower', {type: 'channel', common: { name: 'LastdayPower'}, native: {},});
+        // States
+        await this.setObjectNotExistsAsync('LastdayPower.PvPower', {type: 'state', common: {type: 'number', name: 'PvErzeugung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('LastdayPower.Load', {type: 'state', common: {type: 'number', name: 'Verbrauch', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('LastdayPower.Export', {type: 'state', common: {type: 'number', name: 'Einspeisung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastdayPower.Import', {type: 'state', common: {type: 'number', name: 'Bezug', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastdayPower.BatDischarge', {type: 'state', common: {type: 'number', name: 'BatterieEntladung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastdayPower.BatCharge', {type: 'state', common: {type: 'number', name: 'BatterieLadung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastdayPower.SelfConsumption', {type: 'state', common: {type: 'number', name: 'Eigenverbrauch kWh', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastdayPower.SelfConsumptionQuota', {type: 'state', common: {type: 'number', name: 'Eigenverbrauch Anteil', unit: '%' , role: 'value', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastdayPower.AutarchyQuota', {type: 'state', common: {type: 'number', name: 'Autarkie', unit: '%' , role: 'value', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastdayPower.Date', {type: 'state', common: {type: 'number', name: 'Datum', role: 'value.time', read: true,  write: true,}, native: {},});
+
+        // Month
+        // Channel
+        await this.setObjectNotExistsAsync('MonthPower', {type: 'channel', common: { name: 'MonthPower'}, native: {},});
+        // States
+        await this.setObjectNotExistsAsync('MonthPower.PvPower', {type: 'state', common: {type: 'number', name: 'PvErzeugung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('MonthPower.Load', {type: 'state', common: {type: 'number', name: 'Verbrauch', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('MonthPower.Export', {type: 'state', common: {type: 'number', name: 'Einspeisung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('MonthPower.Import', {type: 'state', common: {type: 'number', name: 'Bezug', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('MonthPower.BatDischarge', {type: 'state', common: {type: 'number', name: 'BatterieEntladung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('MonthPower.BatCharge', {type: 'state', common: {type: 'number', name: 'BatterieLadung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('MonthPower.SelfConsumption', {type: 'state', common: {type: 'number', name: 'Eigenverbrauch kWh', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('MonthPower.SelfConsumptionQuota', {type: 'state', common: {type: 'number', name: 'Eigenverbrauch Anteil', unit: '%' , role: 'value', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('MonthPower.AutarchyQuota', {type: 'state', common: {type: 'number', name: 'Autarkie', unit: '%' , role: 'value', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('MonthPower.Date', {type: 'state', common: {type: 'number', name: 'Datum', role: 'value.time', read: true,  write: true,}, native: {},});
+
+        // LastMonth
+        // Channel
+        await this.setObjectNotExistsAsync('LastMonthPower', {type: 'channel', common: { name: 'LastMonthPower'}, native: {},});
+        // States
+        await this.setObjectNotExistsAsync('LastMonthPower.PvPower', {type: 'state', common: {type: 'number', name: 'PvErzeugung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('LastMonthPower.Load', {type: 'state', common: {type: 'number', name: 'Verbrauch', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('LastMonthPower.Export', {type: 'state', common: {type: 'number', name: 'Einspeisung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastMonthPower.Import', {type: 'state', common: {type: 'number', name: 'Bezug', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastMonthPower.BatDischarge', {type: 'state', common: {type: 'number', name: 'BatterieEntladung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastMonthPower.BatCharge', {type: 'state', common: {type: 'number', name: 'BatterieLadung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastMonthPower.SelfConsumption', {type: 'state', common: {type: 'number', name: 'Eigenverbrauch kWh', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastMonthPower.SelfConsumptionQuota', {type: 'state', common: {type: 'number', name: 'Eigenverbrauch Anteil', unit: '%' , role: 'value', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastMonthPower.AutarchyQuota', {type: 'state', common: {type: 'number', name: 'Autarkie', unit: '%' , role: 'value', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastMonthPower.Date', {type: 'state', common: {type: 'number', name: 'Datum', role: 'value.time', read: true,  write: true,}, native: {},});
+
+        // Year
+        // Channel
+        await this.setObjectNotExistsAsync('YearPower', {type: 'channel', common: { name: 'YearPower'}, native: {},});
+        // States
+        await this.setObjectNotExistsAsync('YearPower.PvPower', {type: 'state', common: {type: 'number', name: 'PvErzeugung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('YearPower.Load', {type: 'state', common: {type: 'number', name: 'Verbrauch', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('YearPower.Export', {type: 'state', common: {type: 'number', name: 'Einspeisung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('YearPower.Import', {type: 'state', common: {type: 'number', name: 'Bezug', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('YearPower.BatDischarge', {type: 'state', common: {type: 'number', name: 'BatterieEntladung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('YearPower.BatCharge', {type: 'state', common: {type: 'number', name: 'BatterieLadung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('YearPower.SelfConsumption', {type: 'state', common: {type: 'number', name: 'Eigenverbrauch kWh', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('YearPower.SelfConsumptionQuota', {type: 'state', common: {type: 'number', name: 'Eigenverbrauch Anteil', unit: '%' , role: 'value', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('YearPower.AutarchyQuota', {type: 'state', common: {type: 'number', name: 'Autarkie', unit: '%' , role: 'value', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('YearPower.Date', {type: 'state', common: {type: 'number', name: 'Datum', role: 'value.time', read: true,  write: true,}, native: {},});
+
+        // LastYear
+        // Channel
+        await this.setObjectNotExistsAsync('LastYearPower', {type: 'channel', common: { name: 'LastYearPower'}, native: {},});
+        // States
+        await this.setObjectNotExistsAsync('LastYearPower.PvPower', {type: 'state', common: {type: 'number', name: 'PvErzeugung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('LastYearPower.Load', {type: 'state', common: {type: 'number', name: 'Verbrauch', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});
+        await this.setObjectNotExistsAsync('LastYearPower.Export', {type: 'state', common: {type: 'number', name: 'Einspeisung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastYearPower.Import', {type: 'state', common: {type: 'number', name: 'Bezug', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastYearPower.BatDischarge', {type: 'state', common: {type: 'number', name: 'BatterieEntladung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastYearPower.BatCharge', {type: 'state', common: {type: 'number', name: 'BatterieLadung', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastYearPower.SelfConsumption', {type: 'state', common: {type: 'number', name: 'Eigenverbrauch kWh', unit: 'KWh' , role: 'value.power.consumption', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastYearPower.SelfConsumptionQuota', {type: 'state', common: {type: 'number', name: 'Eigenverbrauch Anteil', unit: '%' , role: 'value', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastYearPower.AutarchyQuota', {type: 'state', common: {type: 'number', name: 'Autarkie', unit: '%' , role: 'value', read: true,  write: true,}, native: {},});        
+        await this.setObjectNotExistsAsync('LastYearPower.Date', {type: 'state', common: {type: 'number', name: 'Datum', role: 'value.time', read: true,  write: true,}, native: {},});
 
         // In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
-        this.subscribeStates('testVariable');
+
+        // this.subscribeStates('testVariable'); <--- Ausfüllen
+
         // You can also add a subscription for multiple states. The following line watches all states starting with "lights."
         // this.subscribeStates('lights.*');
         // Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
@@ -71,14 +165,14 @@ class Energyflowmotion extends utils.Adapter {
             you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
         */
         // the variable testVariable is set to true as command (ack=false)
-        await this.setStateAsync('testVariable', true);
+        //await this.setStateAsync('testVariable', true);
 
         // same thing, but the value is flagged "ack"
         // ack should be always set to true if the value is received from or acknowledged from the target system
-        await this.setStateAsync('testVariable', { val: true, ack: true });
+        //await this.setStateAsync('testVariable', { val: true, ack: true });
 
         // same thing, but the state is deleted after 30s (getState will return null afterwards)
-        await this.setStateAsync('testVariable', { val: true, ack: true, expire: 30 });
+        //await this.setStateAsync('testVariable', { val: true, ack: true, expire: 30 });
 
         // examples for the checkPassword/checkGroup functions
         let result = await this.checkPasswordAsync('admin', 'iobroker');
